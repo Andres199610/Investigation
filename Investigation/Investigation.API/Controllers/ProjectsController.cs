@@ -17,6 +17,8 @@ namespace Investigation.API.Controllers
 
             _context = context;
         }
+
+        // get por lista
         [HttpGet]
         public async Task<ActionResult> Get() { 
         
@@ -26,6 +28,23 @@ namespace Investigation.API.Controllers
         
         }
 
+        // get por parametro
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id)
+        {
+
+            var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == id); 
+
+            if(project == null)
+            {
+
+                 return NotFound();
+            }
+
+            return Ok(project);
+
+        }
 
         [HttpPost]
         public async Task<ActionResult> Post(Project project)

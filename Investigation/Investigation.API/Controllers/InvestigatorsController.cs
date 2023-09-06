@@ -7,7 +7,7 @@ namespace Investigation.API.Controllers
 {
     [ApiController]
     [Route("api/investigators")]
-    public class InvestigatorsController:ControllerBase
+    public class InvestigatorsController : ControllerBase
     {
         private readonly DataContext _context;
 
@@ -17,15 +17,34 @@ namespace Investigation.API.Controllers
         {
 
 
-        _context = context;
+            _context = context;
 
         }
+
+        // GET por lsita
         [HttpGet]
         public async Task<IActionResult> Get()
         {
 
             return Ok(await _context.Investigators.ToListAsync());
 
+
+        }
+
+        // Get por parametro
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+
+            var investigator = await _context.Investigators.FirstOrDefaultAsync(x=>x.Id == id);
+
+            if(investigator == null)
+            {
+
+                return NotFound();
+
+            }
+            return Ok(investigator);
 
         }
 
